@@ -15,12 +15,8 @@ class Question < ApplicationRecord
     foreign_key: :poll_id,
     class_name: :Poll
 
-  has_many :responses,
+  has_many :answer_choices,
     primary_key: :id,
     foreign_key: :question_id,
-    class_name: :Response
-  
-  has_many :answerchoices,
-    through: :responses,
-    source: :answer_choice
+    class_name: :AnswerChoice
 end

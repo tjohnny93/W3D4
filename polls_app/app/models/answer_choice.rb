@@ -6,6 +6,7 @@
 #  answer_text :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  question_id :integer          not null
 #
 
 class AnswerChoice < ApplicationRecord
@@ -14,7 +15,8 @@ class AnswerChoice < ApplicationRecord
     foreign_key: :answerchoice_id,
     class_name: :Response
 
-  has_many :questions,
-    through: :responses,
-    source: :question
+  belongs_to :question,
+    primary_key: :id,
+    foreign_key: :question_id,
+    class_name: :Question
 end
