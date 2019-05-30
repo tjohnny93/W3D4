@@ -6,21 +6,32 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-user1 = User.create([{ username: 'Joe' }])
-user2 = User.create([{ username: 'Johnny' }])
+User.destroy_all
+Poll.destroy_all
+Question.destroy_all
+AnswerChoice.destroy_all
+Response.destroy_all
 
-poll1 = Poll.create([{ title:  "PIZZA", user_id: 1}])
-poll2 = Poll.create([{ title:  "Commute", user_id: 2}])
+ActiveRecord::Base.transaction do
 
-question1 = Question.create([{ text: "Who wants Pizza?", poll_id: 1}])
-question2 = Question.create([{ text: "Who takes the bus?", poll_id: 2}])
 
-answer1 = AnswerChoices.create([{ answer_text: "Yes!!!", question_id: 1 }])
-answer2 = AnswerChoices.create([{ answer_text: "YUCKY!", question_id: 1 }])
-answer3 = AnswerChoices.create([{ answer_text: "I do", question_id: 2 }])
-answer4 = AnswerChoices.create([{ answer_text: "Not me", question_id: 2 }])
+  user1 = User.create!( username: 'Joe' )
+  user2 = User.create!( username: 'Johnny' )
 
-response1 = Response.create([{ answerchoice_id: 1, user_id: 1 }])
-response2 = Response.create([{ answerchoice_id: 2, user_id: 2 }])
-response3 = Response.create([{ answerchoice_id: 3, user_id: 1 }])
-response4 = Response.create([{ answerchoice_id: 4, user_id: 2 }])
+  poll1 = Poll.create!( title:  "PIZZA", author: user1 )
+  poll2 = Poll.create!( title:  "Commute", author: user2 )
+
+  question1 = Question.create!( text: "Who wants Pizza?", poll: poll1 )
+  question2 = Question.create!( text: "Who takes the bus?", poll: poll2 )
+
+  answer1 = AnswerChoice.create!( answer_text: "Yes!!!", question: question1 )
+  answer2 = AnswerChoice.create!( answer_text: "YUCKY!", question: question1 )
+  answer3 = AnswerChoice.create!( answer_text: "I do", question: question2 )
+  answer4 = AnswerChoice.create!( answer_text: "Not me", question: question2 )
+
+  response1 = Response.create!( answer_choice: answer1, respondent: user1 )
+  response2 = Response.create!( answer_choice: answer2, respondent: user2 )
+  response3 = Response.create!( answer_choice: answer3, respondent: user1 )
+  response4 = Response.create!( answer_choice: answer4, respondent: user2 )
+
+end
