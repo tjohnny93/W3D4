@@ -1,2 +1,26 @@
+# == Schema Information
+#
+# Table name: questions
+#
+#  id         :bigint           not null, primary key
+#  text       :string           not null
+#  poll_id    :integer          not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class Question < ApplicationRecord
+  belongs_to :poll,
+    primary_key: :id,
+    foreign_key: :poll_id,
+    class_name: :Poll
+
+  has_many :responses,
+    primary_key: :id,
+    foreign_key: :question_id,
+    class_name: :Response
+  
+  has_many :answerchoices,
+    through: :responses,
+    source: :answer_choice
 end
